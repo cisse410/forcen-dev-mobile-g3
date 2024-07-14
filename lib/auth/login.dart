@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tasks_manager_forcen/auth/register.dart';
 import 'package:tasks_manager_forcen/widgets/custom_text_field.dart';
 
 import '../widgets/custom_button.dart';
@@ -76,22 +77,29 @@ class _LoginPageState extends State<LoginPage> {
                   btnContent: 'Sing In',
                 ),
                 const SizedBox(height: 30),
-                const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Vous n\'avez pas de compte?',
+                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  const Text(
+                    'Vous n\'avez pas de compte?',
+                  ),
+                  const SizedBox(width: 12),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const RegisterPage()),
+                      );
+                    },
+                    child: const Text(
+                      'S\'inscrire',
+                      style: TextStyle(
+                        color: Color(0xff7492B7),
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
                       ),
-                      SizedBox(width: 12),
-                      Text(
-                        'S\'inscrire',
-                        style: TextStyle(
-                          color: Color(0xff7492B7),
-                          fontSize: 15,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ])
+                    ),
+                  ),
+                ])
               ],
             ),
           ),
