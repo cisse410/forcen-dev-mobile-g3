@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tasks_manager_forcen/auth/login.dart';
+import 'package:tasks_manager_forcen/pages/main_page.dart';
 
 import '../widgets/custom_button.dart';
 import '../widgets/custom_text_field.dart';
@@ -54,8 +55,14 @@ class _RegisterPageState extends State<RegisterPage> {
                   obscureText: true,
                   textInputType: TextInputType.text,
                 ),
-                const CustomButton(
+                CustomButton(
                   btnContent: 'Sing up',
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const MainPage()),
+                    );
+                  },
                 ),
                 const SizedBox(height: 20),
                 Row(mainAxisAlignment: MainAxisAlignment.center, children: [

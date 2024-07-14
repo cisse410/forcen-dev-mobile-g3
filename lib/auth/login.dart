@@ -73,8 +73,9 @@ class _LoginPageState extends State<LoginPage> {
                     )
                   ],
                 ),
-                const CustomButton(
+                CustomButton(
                   btnContent: 'Sing In',
+                  onTap: () {},
                 ),
                 const SizedBox(height: 30),
                 Row(mainAxisAlignment: MainAxisAlignment.center, children: [
