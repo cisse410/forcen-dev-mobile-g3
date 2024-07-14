@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tasks_manager_forcen/auth/register.dart';
+import 'package:tasks_manager_forcen/pages/main_page.dart';
 import 'package:tasks_manager_forcen/widgets/custom_text_field.dart';
 
 import '../widgets/custom_button.dart';
@@ -75,7 +76,12 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 CustomButton(
                   btnContent: 'Sing In',
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const MainPage()),
+                    );
+                  },
                 ),
                 const SizedBox(height: 30),
                 Row(mainAxisAlignment: MainAxisAlignment.center, children: [
