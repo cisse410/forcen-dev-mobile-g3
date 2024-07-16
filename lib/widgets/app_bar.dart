@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tasks_manager_forcen/auth/login.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget{
   const CustomAppBar({super.key});
@@ -21,7 +22,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget{
             Icons.logout,
             color: Colors.white,
           ),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => const LoginPage())
+            );
+          },
         ),
       ],
     );

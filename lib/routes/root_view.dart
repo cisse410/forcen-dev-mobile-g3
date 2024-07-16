@@ -8,6 +8,7 @@ import 'package:tasks_manager_forcen/pages/profile/profile_edit_page.dart';
 import 'package:tasks_manager_forcen/pages/profile/profile_page.dart';
 
 import '../constants/app_colors.dart';
+import '../pages/splash_screen_page.dart';
 import 'app_routes.dart';
 
 class RootView extends StatelessWidget {
@@ -23,6 +24,7 @@ class RootView extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       routes: {
+        AppRoutes.splash : (context) => const SplashScreenPage(),
         AppRoutes.home : (context) => const HomePage(),
         AppRoutes.login : (context) => const LoginPage(),
         AppRoutes.register : (context) => const RegisterPage(),
@@ -31,7 +33,7 @@ class RootView extends StatelessWidget {
         AppRoutes.passwordReset : (context) => const PasswordResetPage(),
         AppRoutes.changePassword : (context) => const ChangePasswordPage()
       },
-      initialRoute: "/login",
+      initialRoute: "/splash",
     );
   }
 }

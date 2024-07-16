@@ -6,8 +6,10 @@ import 'package:tasks_manager_forcen/pages/profile/profile_edit_page.dart';
 import 'package:tasks_manager_forcen/pages/profile/profile_page.dart';
 
 import '../auth/password_reset.dart';
+import '../pages/splash_screen_page.dart';
 
 class AppRoutes {
+  static const String splash = SplashScreenPage.routeName;
   static const String home = HomePage.routeName;
   static const String login = LoginPage.routeName;
   static const String register = RegisterPage.routeName;

@@ -15,7 +15,12 @@ class AppDrawer extends StatelessWidget {
         child: Column(
           children: [
             UserAccountsDrawerHeader(
-              currentAccountPicture: FlutterLogo(),
+              currentAccountPicture: const CircleAvatar(
+                radius: 40,
+                backgroundImage: AssetImage(
+                    'assets/images/profile_image.jpg'
+                ),
+              ),
               accountName: Text('CISSE410'),
               accountEmail: Text('formation@forcen.sn'),
               decoration: BoxDecoration(

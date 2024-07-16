@@ -9,6 +9,34 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    void _showDeleteConfirmationDialog() {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Confirm Deletion'),
+            content: const Text('Are you sure you want to delete your account? This action cannot be undone.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(); // Fermer la boîte de dialogue
+                },
+                child: const Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () {
+                  // Logique de suppression du compte
+                  Navigator.of(context).pop(); // Fermer la boîte de dialogue
+                  // Redirection ou autre action après suppression
+                },
+                child: const Text('Delete', style: TextStyle(color: Colors.red)),
+              ),
+            ],
+          );
+        },
+      );
+    }
+
     return Scaffold(
       backgroundColor: AppColors.kPrimaryColor,
       body: Container(
@@ -96,7 +124,7 @@ class ProfilePage extends StatelessWidget {
                         'Delete your account',
                         Colors.red,
                           () {
-                        Navigator.pushNamed(context, 'ProfileEditPage');
+                            _showDeleteConfirmationDialog();
                       },
                     ),
                   ],
@@ -117,4 +145,6 @@ class ProfilePage extends StatelessWidget {
       onTap: onTap,
     );
   }
+
+
 }

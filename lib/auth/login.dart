@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tasks_manager_forcen/auth/register.dart';
+import 'package:tasks_manager_forcen/constants/app_colors.dart';
 import 'package:tasks_manager_forcen/pages/main_page.dart';
 import 'package:tasks_manager_forcen/widgets/custom_text_field.dart';
-
 import '../widgets/custom_button.dart';
 
 class LoginPage extends StatefulWidget {
@@ -15,6 +15,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool? isSelected = false;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -24,16 +25,19 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset(
-                  "assets/images/auth.png",
-                  width: 171,
+                Center(
+                  child: Image.asset(
+                    "assets/images/auth.png",
+                    width: 150,
+                  ),
                 ),
+                const SizedBox(height: 20),
                 const Text(
                   'Login',
                   style: TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.w800,
-                    color: Color(0xff112255),
+                    //color: Color(0xff112255),
                   ),
                 ),
                 const SizedBox(height: 30),
@@ -53,15 +57,16 @@ class _LoginPageState extends State<LoginPage> {
                     Row(
                       children: [
                         Checkbox(
-                            value: isSelected,
-                            onChanged: (value) {
-                              setState(() {
-                                isSelected = value;
-                              });
-                            }),
+                          value: isSelected,
+                          onChanged: (value) {
+                            setState(() {
+                              isSelected = value;
+                            });
+                          },
+                        ),
                         const Text(
                           'Se souvenir de moi',
-                        )
+                        ),
                       ],
                     ),
                     const Padding(
@@ -72,11 +77,11 @@ class _LoginPageState extends State<LoginPage> {
                           color: Color(0xff7492B7),
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
                 CustomButton(
-                  btnContent: 'Sing In',
+                  btnContent: 'Sign In',
                   onTap: () {
                     Navigator.push(
                       context,
@@ -85,29 +90,32 @@ class _LoginPageState extends State<LoginPage> {
                   },
                 ),
                 const SizedBox(height: 30),
-                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  const Text(
-                    'Vous n\'avez pas de compte?',
-                  ),
-                  const SizedBox(width: 12),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const RegisterPage()),
-                      );
-                    },
-                    child: const Text(
-                      'S\'inscrire',
-                      style: TextStyle(
-                        color: Color(0xff7492B7),
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'Vous n\'avez pas de compte?',
+                    ),
+                    const SizedBox(width: 12),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const RegisterPage()),
+                        );
+                      },
+                      child: const Text(
+                        'S\'inscrire',
+                        style: TextStyle(
+                          color: Color(0xff7492B7),
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
-                  ),
-                ])
+                  ],
+                ),
               ],
             ),
           ),
