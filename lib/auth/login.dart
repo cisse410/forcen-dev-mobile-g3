@@ -7,6 +7,7 @@ import '../widgets/custom_button.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
+  static const String routeName = '/login';
 
   @override
   State<LoginPage> createState() => _LoginPageState();
