@@ -92,6 +92,10 @@ class _TasksPageState extends State<TasksPage> {
         },
         backgroundColor: Theme.of(context).primaryColor,
         child: const Icon(Icons.add, color: Colors.white,), // Couleur de fond du bouton flottant
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(50.0), // Ajustez le rayon ici
+        ),
+        elevation: 10.0,
       ),
       body: Column(
         children: [

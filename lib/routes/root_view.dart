@@ -4,6 +4,8 @@ import 'package:tasks_manager_forcen/auth/password_reset.dart';
 import 'package:tasks_manager_forcen/auth/register.dart';
 import 'package:tasks_manager_forcen/pages/dashboard_page.dart';
 import 'package:tasks_manager_forcen/pages/home_page.dart';
+import 'package:tasks_manager_forcen/pages/main_page.dart';
+import 'package:tasks_manager_forcen/pages/notification/notification_page.dart';
 import 'package:tasks_manager_forcen/pages/profile/change_password_page.dart';
 import 'package:tasks_manager_forcen/pages/profile/profile_edit_page.dart';
 import 'package:tasks_manager_forcen/pages/profile/profile_page.dart';
@@ -32,6 +34,7 @@ class RootView extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       routes: {
         AppRoutes.splash : (context) => const SplashScreenPage(),
+        AppRoutes.main : (context) => const MainPage(),
         AppRoutes.home : (context) => const HomePage(),
         AppRoutes.dashboard : (context) => DashboardPage(),
         AppRoutes.login : (context) => const LoginPage(),
@@ -44,6 +47,7 @@ class RootView extends StatelessWidget {
         AppRoutes.addTask : (context) => const AddTaskPage(),
         AppRoutes.uncompletedTasks : (context) => const UncompletedTasksPage(),
         AppRoutes.completedTasks : (context) => const CompletedTasksPage(),
+        AppRoutes.notification : (context) => const NotificationPage(),
         // AppRoutes.detailTask : (context) => const TaskDetailPage(),
         // AppRoutes.editTask : (context) => const EditTaskPage(title: '', description: '', date: DateTime.timestamp, time: 'null', priority: '',)
       },

@@ -46,7 +46,12 @@ class TaskDetailPage extends StatelessWidget {
                   ),
                 ),
               );
-
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.share),
+            onPressed: () {
+              Share.share('Check out this task: $title\n\n$description');
             },
           ),
         ],
@@ -119,30 +124,6 @@ class TaskDetailPage extends StatelessWidget {
                     fontSize: 16,
                     color: isCompleted ? Colors.green : Colors.red,
                   ),
-                ),
-              ],
-            ),
-            const Spacer(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.share, color: AppColors.kPrimaryColor),
-                  onPressed: () {
-                    Share.share('Check out this task: $title\n\n$description');
-                  },
-                ),
-                IconButton(
-                  icon: const Icon(Icons.facebook, color: AppColors.kPrimaryColor),
-                  onPressed: () {
-                    // Logic for sharing on Facebook
-                  },
-                ),
-                IconButton(
-                  icon: const Icon(Icons.messenger_outline, color: AppColors.kPrimaryColor),
-                  onPressed: () {
-                    // Logic for sharing on Twitter
-                  },
                 ),
               ],
             ),

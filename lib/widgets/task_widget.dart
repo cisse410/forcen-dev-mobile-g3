@@ -36,22 +36,30 @@ class Task extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 400,
-      height: 130,
-      padding: const EdgeInsets.all(1.0),
-      margin: const EdgeInsets.all(16.0),
+      width: double.infinity,
+      padding: const EdgeInsets.all(12.0),
+      margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
       decoration: BoxDecoration(
         color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.2),
+            spreadRadius: 2,
+            blurRadius: 5,
+            offset: const Offset(0, 3),
+          ),
+        ],
         border: Border.all(
-          width: 3,
-          color: Colors.black,
+          width: 1,
+          color: Colors.grey.shade300,
         ),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(15),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -62,11 +70,10 @@ class Task extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 15),
+              const SizedBox(height: 10),
               Container(
                 alignment: Alignment.center,
-                width: 65,
-                height: 25,
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 decoration: BoxDecoration(
                   color: _getPriorityColor(priority),
                   borderRadius: BorderRadius.circular(10),
@@ -74,21 +81,34 @@ class Task extends StatelessWidget {
                 child: Text(
                   priority,
                   style: const TextStyle(
-                    fontSize: 17,
+                    fontSize: 14,
                     fontWeight: FontWeight.bold,
+                    color: Colors.white,
                   ),
                 ),
               ),
-              const SizedBox(height: 15),
+              const SizedBox(height: 10),
               Row(
                 children: [
+                  const Icon(Icons.calendar_today_outlined, size: 20),
                   const SizedBox(width: 5),
-                  const Icon(Icons.calendar_today_outlined, size: 30),
                   Text(
-                    "${date.year}-${date.month}-${date.day}",
+                    "${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}",
                     style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 5),
+              Row(
+                children: [
+                  const Icon(Icons.access_time, size: 20),
+                  const SizedBox(width: 5),
+                  Text(
+                    "${time.hour.toString().padLeft(2, '0')} : ${time.minute.toString().padLeft(2, '0')}",
+                    style: const TextStyle(
+                      fontSize: 16,
                     ),
                   ),
                 ],
@@ -101,22 +121,10 @@ class Task extends StatelessWidget {
             children: <Widget>[
               Icon(
                 isCompleted ? Icons.check_box : Icons.check_box_outline_blank,
-                color: Colors.green,
+                color: isCompleted ? Colors.green : Colors.grey,
                 size: 28,
               ),
               const SizedBox(height: 50),
-              Row(
-                children: <Widget>[
-                  const Icon(Icons.access_alarms, size: 30),
-                  Text(
-                    "${time.hour} : ${time.minute}",
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
             ],
           ),
         ],

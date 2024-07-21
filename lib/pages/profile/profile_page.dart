@@ -108,7 +108,7 @@ class ProfilePage extends StatelessWidget {
                         'Notifications',
                         AppColors.kPrimaryColor,
                           () {
-                        Navigator.pushNamed(context, 'ProfileEditPage');
+                        Navigator.pushNamed(context, '/notification');
                       },
                     ),
                     buildListTile(
@@ -116,7 +116,7 @@ class ProfilePage extends StatelessWidget {
                         'Statistiques',
                         AppColors.kPrimaryColor,
                           () {
-                            Navigator.pushNamed(context, '/dashboard');
+                            Navigator.pushNamed(context, '/main');
                       },
                     ),
                     buildListTile(
