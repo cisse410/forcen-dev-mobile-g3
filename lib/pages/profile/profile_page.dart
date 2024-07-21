@@ -116,7 +116,7 @@ class ProfilePage extends StatelessWidget {
                         'Statistiques',
                         AppColors.kPrimaryColor,
                           () {
-                        Navigator.pushNamed(context, 'ProfileEditPage');
+                            Navigator.pushNamed(context, '/dashboard');
                       },
                     ),
                     buildListTile(

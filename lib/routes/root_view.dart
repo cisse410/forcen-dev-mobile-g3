@@ -2,13 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:tasks_manager_forcen/auth/login.dart';
 import 'package:tasks_manager_forcen/auth/password_reset.dart';
 import 'package:tasks_manager_forcen/auth/register.dart';
+import 'package:tasks_manager_forcen/pages/dashboard_page.dart';
 import 'package:tasks_manager_forcen/pages/home_page.dart';
 import 'package:tasks_manager_forcen/pages/profile/change_password_page.dart';
 import 'package:tasks_manager_forcen/pages/profile/profile_edit_page.dart';
 import 'package:tasks_manager_forcen/pages/profile/profile_page.dart';
+import 'package:tasks_manager_forcen/pages/task/add_task_page.dart';
+import 'package:tasks_manager_forcen/pages/task/completed_tasks_page.dart';
+import 'package:tasks_manager_forcen/pages/task/edit_task_page.dart';
+import 'package:tasks_manager_forcen/pages/task/tasks_page.dart';
 
 import '../constants/app_colors.dart';
 import '../pages/splash_screen_page.dart';
+import '../pages/task/detail_task_page.dart';
+import '../pages/task/uncompleted_tasks_page.dart';
 import 'app_routes.dart';
 
 class RootView extends StatelessWidget {
@@ -26,12 +33,19 @@ class RootView extends StatelessWidget {
       routes: {
         AppRoutes.splash : (context) => const SplashScreenPage(),
         AppRoutes.home : (context) => const HomePage(),
+        AppRoutes.dashboard : (context) => DashboardPage(),
         AppRoutes.login : (context) => const LoginPage(),
         AppRoutes.register : (context) => const RegisterPage(),
         AppRoutes.profile : (context) => const ProfilePage(),
         AppRoutes.profileEdit : (context) => const ProfileEditPage(),
         AppRoutes.passwordReset : (context) => const PasswordResetPage(),
-        AppRoutes.changePassword : (context) => const ChangePasswordPage()
+        AppRoutes.changePassword : (context) => const ChangePasswordPage(),
+        AppRoutes.tasks : (context) => const TasksPage(),
+        AppRoutes.addTask : (context) => const AddTaskPage(),
+        AppRoutes.uncompletedTasks : (context) => const UncompletedTasksPage(),
+        AppRoutes.completedTasks : (context) => const CompletedTasksPage(),
+        // AppRoutes.detailTask : (context) => const TaskDetailPage(),
+        // AppRoutes.editTask : (context) => const EditTaskPage(title: '', description: '', date: DateTime.timestamp, time: 'null', priority: '',)
       },
       initialRoute: "/splash",
     );

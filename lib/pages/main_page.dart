@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:tasks_manager_forcen/constants/app_colors.dart';
+import 'package:tasks_manager_forcen/pages/dashboard_page.dart';
 
 import 'home_page.dart';
 import 'profile/profile_page.dart';
-import 'tasks_page.dart';
+import 'task/tasks_page.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -16,7 +17,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   int selectedIndex = 0;
   final _pages = [
-    const HomePage(),
+    const DashboardPage(),
     const TasksPage(),
     const ProfilePage(),
   ];

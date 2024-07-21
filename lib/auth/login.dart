@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tasks_manager_forcen/auth/register.dart';
 import 'package:tasks_manager_forcen/constants/app_colors.dart';
+import 'package:tasks_manager_forcen/pages/dashboard_page.dart';
 import 'package:tasks_manager_forcen/pages/main_page.dart';
 import 'package:tasks_manager_forcen/widgets/custom_text_field.dart';
 import '../widgets/custom_button.dart';

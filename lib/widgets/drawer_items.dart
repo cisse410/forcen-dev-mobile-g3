@@ -6,9 +6,11 @@ class DrawerItems extends StatelessWidget {
     super.key,
     required this.title,
     required this.icon,
+    required this.onTap,
   });
   final String title;
   final IconData icon;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -18,13 +20,14 @@ class DrawerItems extends StatelessWidget {
         title,
         style: const TextStyle(
           //color: Colors.black,
-          fontSize: 20,
+          fontSize: 18,
         ),
       ),
       leading: Icon(
         icon,
         //color: const Color(0xff7592B6),
       ),
+      onTap: onTap,
     );
   }
 }

@@ -28,21 +28,33 @@ class AppDrawer extends StatelessWidget {
                 borderRadius: BorderRadius.zero,
               ),
             ),
-            const DrawerItems(
+            /*DrawerItems(
               title: 'Home',
               icon: Icons.home_outlined,
-            ),
+              onTap: (){
+                Navigator.pushNamed(context, '/home');
+              },
+            ),*/
             DrawerItems(
               title: 'Dashboard',
               icon: Icons.dashboard_outlined,
+              onTap: (){
+                Navigator.pushNamed(context, '/main');
+              },
             ),
             DrawerItems(
               title: 'Completed tasks',
               icon: Icons.list_alt_sharp,
+              onTap: (){
+                Navigator.pushNamed(context, '/completed-tasks');
+              },
             ),
             DrawerItems(
               title: 'Uncompleted tasks',
               icon: Icons.incomplete_circle_outlined,
+              onTap: (){
+                Navigator.pushNamed(context, '/uncompleted-tasks');
+              },
             ),
             SizedBox(height: 15),
           ],
