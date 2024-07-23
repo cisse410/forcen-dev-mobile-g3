@@ -1,12 +1,10 @@
-import 'package:dashboard/dashboard.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter/services.dart';
 
 import 'package:tasks_manager_forcen/auth/login.dart';
 
-void main() { 
-  runApp(MyApp());
+void main() {
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
@@ -17,19 +15,13 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
-    @override
+  @override
   void initState() {
     super.initState();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
   }
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Dashboard(),
-
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
@@ -39,7 +31,6 @@ class _MyAppState extends State<MyApp> {
       ),
       debugShowCheckedModeBanner: false,
       home: const LoginPage(),
-
     );
   }
 }
