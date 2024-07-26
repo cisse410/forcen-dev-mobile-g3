@@ -1,0 +1,59 @@
+// task_bloc.dart
+import 'package:bloc/bloc.dart';
+import '../repository/task_repository.dart';
+import 'task_event.dart';
+import 'task_state.dart';
+
+class TaskBloc extends Bloc<TaskEvent, TaskState> {
+  final TaskRepository taskRepository;
+
+  TaskBloc({required this.taskRepository}) : super(TaskInitial()) {
+    on<AddTask>(_onAddTask);
+    on<FetchTasks>(_onFetchTasks);
+    on<UpdateTask>(_onUpdateTask);
+    on<DeleteTask>(_onDeleteTask);
+  }
+
+  void _onAddTask(AddTask event, Emitter<TaskState> emit) async {
+    emit(TaskLoading());
+    try {
+      await taskRepository.createTask(event.task);
+      final tasks = await taskRepository.fetchTasks();
+      emit(TaskLoaded(tasks: tasks));
+    } catch (e) {
+      emit(TaskError(message: e.toString()));
+    }
+  }
+
+  void _onFetchTasks(FetchTasks event, Emitter<TaskState> emit) async {
+    emit(TaskLoading());
+    try {
+      final tasks = await taskRepository.fetchTasks();
+      emit(TaskLoaded(tasks: tasks));
+    } catch (e) {
+      emit(TaskError(message: e.toString()));
+    }
+  }
+
+  void _onUpdateTask(UpdateTask event, Emitter<TaskState> emit) async {
+    emit(TaskLoading());
+    try {
+      await taskRepository.updateTask(event.task);
+      final tasks = await taskRepository.fetchTasks();
+      emit(TaskLoaded(tasks: tasks));
+    } catch (e) {
+      emit(TaskError(message: e.toString()));
+    }
+  }
+
+  void _onDeleteTask(DeleteTask event, Emitter<TaskState> emit) async {
+    emit(TaskLoading());
+    try {
+      await taskRepository.deleteTask(event.taskId);
+      final tasks = await taskRepository.fetchTasks();
+      emit(TaskLoaded(tasks: tasks));
+    } catch (e) {
+      emit(TaskError(message: e.toString()));
+    }
+  }
+}

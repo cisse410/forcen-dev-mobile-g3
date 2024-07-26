@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tasks_manager_forcen/api/models/task_model.dart';
 import 'package:tasks_manager_forcen/constants/app_colors.dart';
+
+import '../../api/blocs/task_bloc.dart';
+import '../../api/blocs/task_event.dart';
 
 class AddTaskPage extends StatefulWidget {
   const AddTaskPage({Key? key}) : super(key: key);
@@ -42,6 +47,43 @@ class _AddTaskPageState extends State<AddTaskPage> {
         _selectedTime = pickedTime;
       });
     }
+  }
+
+  String _getColorForPriority(String priority) {
+    switch (priority) {
+      case 'High':
+        return 'Red';
+      case 'Medium':
+        return 'Orange';
+      case 'Low':
+      default:
+        return 'Green';
+    }
+  }
+
+  void _saveTask() {
+    final title = _titleController.text;
+    final content = _contentController.text;
+    final dueDate = DateTime(
+      _selectedDate.year,
+      _selectedDate.month,
+      _selectedDate.day,
+      _selectedTime.hour,
+      _selectedTime.minute,
+    );
+    final color = _getColorForPriority(_selectedPriority);
+
+    final task = TaskModel(
+      title: title,
+      content: content,
+      priority: _selectedPriority,
+      color: color,
+      dueDate: dueDate,
+    );
+
+    context.read<TaskBloc>().add(AddTask(task));
+
+    Navigator.of(context).pop();
   }
 
   @override
@@ -110,8 +152,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                       suffixIcon: Icon(Icons.calendar_today),
                     ),
                     controller: TextEditingController(
-                        text:
-                        "${_selectedDate.toLocal()}".split(' ')[0]),
+                        text: "${_selectedDate.toLocal()}".split(' ')[0]),
                   ),
                 ),
               ),
@@ -134,11 +175,9 @@ class _AddTaskPageState extends State<AddTaskPage> {
               ),
               const SizedBox(height: 16),
               ElevatedButton(
-                onPressed: () {
-                  // Logique de sauvegarde de la tâche
-                },
+                onPressed: _saveTask,
                 child: const Text(
-                    'Save',
+                  'Save',
                   style: TextStyle(fontSize: 20),
                 ),
                 style: ElevatedButton.styleFrom(
