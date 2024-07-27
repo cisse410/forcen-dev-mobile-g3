@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tasks_manager_forcen/auth/login.dart';
 import 'package:tasks_manager_forcen/routes/root_view.dart';
 
 import 'api/blocs/task_bloc.dart';

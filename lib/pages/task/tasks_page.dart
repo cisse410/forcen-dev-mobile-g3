@@ -1,15 +1,17 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:js_interop_unsafe';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
-import 'package:tasks_manager_forcen/constants/app_colors.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:tasks_manager_forcen/widgets/app_bar.dart';
 import '../../widgets/app_drawer.dart';
 import '../../widgets/task_widget.dart';
 import 'detail_task_page.dart';
+import 'package:http/http.dart' as http;
 
 class TasksPage extends StatefulWidget {
-  const TasksPage({super.key});
+  final String title;
+  const TasksPage({super.key, required this.title});
   static const String routeName = '/completed-tasks';
 
   @override
@@ -62,7 +64,22 @@ class _TasksPageState extends State<TasksPage> {
       'description': "Description"
     },
   ];
+  Future<void> _deleteTask(String title)
 
+async {
+    final url =
+        Uri.parse('http://localhost:3000/api-docs#/Task/TaskController_remove');
+    final response = await
+    http.delete(url);
+    if (response.statusCode == 200) {
+      setState(() {
+        tasks.removeWhere((task) => task["title"] == title
+        );
+      });
+    } else {
+      print("Erreur while deleting");
+    }
+}
   List<Map<String, dynamic>> get filteredTasks {
     return tasks.where((task) {
       final matchesSearchQuery = task['title'].toLowerCase().contains(searchQuery.toLowerCase());
@@ -153,7 +170,20 @@ class _TasksPageState extends State<TasksPage> {
               itemCount: filteredTasks.length,
               itemBuilder: (context, index) {
                 final task = filteredTasks[index];
-                return InkWell(
+                return Slidable(
+                  key: ValueKey(task['title']),
+                  endActionPane: ActionPane(
+                      motion: const ScrollMotion(),
+                      children: [SlidableAction(
+                          onPressed: (context) => _deleteTask(task['title']!),
+                        backgroundColor: Colors.red,
+                        foregroundColor: Colors.white,
+                        icon: Icons.delete,
+                        label: 'Delete',
+                      ),
+                      ],
+                  ),
+                  child: InkWell(
                   onTap: (){
                     Navigator.push(
                       context,
@@ -177,8 +207,9 @@ class _TasksPageState extends State<TasksPage> {
                     isCompleted: task['isCompleted'],
                     description: '',
                   ),
+                  ),
                 );
-              },
+                },
             ),
           ),
         ],
