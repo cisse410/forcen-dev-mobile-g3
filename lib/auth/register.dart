@@ -7,6 +7,7 @@ import '../widgets/custom_text_field.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
+  static const String routeName = '/register';
 
   @override
   State<RegisterPage> createState() => _RegisterPageState();
@@ -24,7 +25,7 @@ class _RegisterPageState extends State<RegisterPage> {
               children: [
                 Image.asset(
                   "assets/images/auth.png",
-                  width: 171,
+                  width: 150,
                 ),
                 const Text(
                   'Registration',
