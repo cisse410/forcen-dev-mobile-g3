@@ -1,16 +1,18 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
-import 'package:tasks_manager_forcen/constants/app_colors.dart';
 import 'package:tasks_manager_forcen/widgets/app_bar.dart';
-import '../../widgets/app_drawer.dart';
-import '../../widgets/task_widget.dart';
+import 'package:tasks_manager_forcen/widgets/app_drawer.dart';
+import 'package:tasks_manager_forcen/widgets/task_widget.dart';
+
+import '../../api/blocs/task_bloc.dart';
+import '../../api/blocs/task_state.dart';
+import '../../api/blocs/task_event.dart';
 import 'detail_task_page.dart';
 
 class TasksPage extends StatefulWidget {
   const TasksPage({super.key});
-  static const String routeName = '/completed-tasks';
+  static const String routeName = '/tasks';
 
   @override
   State<TasksPage> createState() => _TasksPageState();
@@ -20,62 +22,10 @@ class _TasksPageState extends State<TasksPage> {
   String searchQuery = '';
   String priorityFilter = 'All';
 
-  final List<Map<String, dynamic>> tasks = [
-    {
-      'title': 'Task 1',
-      'priority': 'Low',
-      'date': '2024-07-21',
-      'time': '14:00',
-      'isCompleted': false,
-      'description': "Description"
-    },
-    {
-      'title': 'Task 2',
-      'priority': 'High',
-      'date': '2024-07-22',
-      'time': '16:00',
-      'isCompleted': true,
-      'description': "Description"
-    },
-    {
-      'title': 'Task 3',
-      'priority': 'Medium',
-      'date': '2024-07-23',
-      'time': '18:00',
-      'isCompleted': true,
-      'description': "Description"
-    },
-    {
-      'title': 'Task 4',
-      'priority': 'Medium',
-      'date': '2024-07-23',
-      'time': '18:00',
-      'isCompleted': false,
-      'description': "Description"
-    },
-    {
-      'title': 'Task 5',
-      'priority': 'Medium',
-      'date': '2024-07-23',
-      'time': '18:00',
-      'isCompleted': true,
-      'description': "Description"
-    },
-  ];
-
-  List<Map<String, dynamic>> get filteredTasks {
-    return tasks.where((task) {
-      final matchesSearchQuery = task['title'].toLowerCase().contains(searchQuery.toLowerCase());
-      final matchesPriorityFilter = priorityFilter == 'All' || task['priority'] == priorityFilter;
-      return matchesSearchQuery && matchesPriorityFilter;
-    }).toList();
-  }
-
-  TimeOfDay _parseTime(String time) {
-    final parts = time.split(':');
-    final hour = int.parse(parts[0]);
-    final minute = int.parse(parts[1]);
-    return TimeOfDay(hour: hour, minute: minute);
+  @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<TaskBloc>(context).add(FetchTasks());
   }
 
   @override
@@ -83,6 +33,7 @@ class _TasksPageState extends State<TasksPage> {
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
     );
+
     return Scaffold(
       appBar: const CustomAppBar(),
       drawer: const AppDrawer(),
@@ -90,98 +41,147 @@ class _TasksPageState extends State<TasksPage> {
         onPressed: () {
           Navigator.pushNamed(context, '/add-task'); // Exemple de navigation vers une page d'ajout de tâche
         },
-        backgroundColor: Theme.of(context).primaryColor,
-        child: const Icon(Icons.add, color: Colors.white,), // Couleur de fond du bouton flottant
+        backgroundColor: Theme.of(context).primaryColor, // Couleur de fond du bouton flottant
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(50.0), // Ajustez le rayon ici
         ),
         elevation: 10.0,
+        child: const Icon(Icons.add, color: Colors.white),
       ),
-      body: Column(
-        children: [
-          const SizedBox(height: 10),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: TextField(
-              onChanged: (value) {
-                setState(() {
-                  searchQuery = value;
-                });
-              },
-              decoration: const InputDecoration(
-                prefixIcon: Icon(Icons.search),
-                hintText: 'Search tasks...',
-                border: OutlineInputBorder(),
-              ),
-            ),
-          ),
-          const SizedBox(height: 10),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Row(
+      body: BlocBuilder<TaskBloc, TaskState>(
+        builder: (context, state) {
+          if (state is TaskLoading) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (state is TaskError) {
+            return Center(child: Text(state.message));
+          }
+          if (state is TaskLoaded) {
+            final tasks = state.tasks.where((task) {
+              final matchesSearchQuery = task.title.toLowerCase().contains(searchQuery.toLowerCase());
+              final matchesPriorityFilter = priorityFilter == 'All' || task.priority == priorityFilter;
+              return matchesSearchQuery && matchesPriorityFilter;
+            }).toList();
+
+            // Trier les tâches par date de création dans l'ordre décroissant
+            tasks.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+
+            return Column(
               children: [
-                const Text(
-                  "Filter by priority: ",
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xff112255),
+                const SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: TextField(
+                    onChanged: (value) {
+                      setState(() {
+                        searchQuery = value;
+                      });
+                    },
+                    decoration: const InputDecoration(
+                      prefixIcon: Icon(Icons.search),
+                      hintText: 'Search tasks...',
+                      border: OutlineInputBorder(),
+                    ),
                   ),
                 ),
-                const SizedBox(width: 10),
-                DropdownButton<String>(
-                  value: priorityFilter,
-                  items: <String>['All', 'High', 'Medium', 'Low']
-                      .map((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      priorityFilter = newValue!;
-                    });
-                  },
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 10),
-          Expanded(
-            child: ListView.builder(
-              itemCount: filteredTasks.length,
-              itemBuilder: (context, index) {
-                final task = filteredTasks[index];
-                return InkWell(
-                  onTap: (){
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => TaskDetailPage(
-                          title: task['title'],
-                          description: 'description',
-                          date: DateTime.parse(task['date']),
-                          time: _parseTime(task['time']),
-                          isCompleted: task['isCompleted'],
-                          priority: task['priority'],
+                const SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Row(
+                    children: [
+                      const Text(
+                        "Filter by priority: ",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xff112255),
                         ),
                       ),
-                    );
-                  },
-                  child: Task(
-                    title: task['title'],
-                    priority: task['priority'],
-                    date: DateTime.parse(task['date']),
-                    time: _parseTime(task['time']),
-                    isCompleted: task['isCompleted'],
-                    description: '',
+                      const SizedBox(width: 10),
+                      DropdownButton<String>(
+                        value: priorityFilter,
+                        items: <String>['All', 'High', 'Medium', 'Low']
+                            .map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            priorityFilter = newValue!;
+                          });
+                        },
+                      ),
+                    ],
                   ),
-                );
-              },
-            ),
-          ),
-        ],
+                ),
+                const SizedBox(height: 10),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: tasks.length,
+                    itemBuilder: (context, index) {
+                      final task = tasks[index];
+                      return Dismissible(
+                        key: ValueKey(task.id), // Utilisez un identifiant unique pour chaque élément
+                        background: Container(
+                          color: Colors.red,
+                          child: const Icon(Icons.delete, color: Colors.white),
+                          alignment: Alignment.centerRight,
+                          padding: const EdgeInsets.only(right: 20.0),
+                        ),
+                        onDismissed: (direction) {
+                          // Assurez-vous que task.id n'est pas null avant de l'utiliser
+                          if (task.id != null) {
+                            BlocProvider.of<TaskBloc>(context).add(DeleteTask(task.id!));
+                          } else {
+                            // Gérez le cas où l'ID est nul, par exemple en affichant un message d'erreur
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('Task ID is missing.')),
+                            );
+                          }
+                        },
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => TaskDetailPage(
+                                  id: task.id!,
+                                  title: task.title,
+                                  description: task.content,
+                                  date: task.dueDate,
+                                  time: TimeOfDay(
+                                    hour: task.dueDate.hour,
+                                    minute: task.dueDate.minute,
+                                  ),
+                                  priority: task.priority,
+                                  createdAt: task.createdAt,
+                                ),
+                              ),
+                            );
+                          },
+                          child: Task(
+                            title: task.title,
+                            priority: task.priority,
+                            date: task.dueDate,
+                            time: TimeOfDay(
+                              hour: task.dueDate.hour,
+                              minute: task.dueDate.minute,
+                            ),
+                            description: task.content,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            );
+          }
+
+          return const Center(child: Text('No tasks found.'));
+        },
       ),
     );
   }

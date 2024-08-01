@@ -6,7 +6,6 @@ class Task extends StatelessWidget {
   final DateTime date;
   final TimeOfDay time;
   final String description;
-  final bool isCompleted;
 
   const Task({
     super.key,
@@ -14,7 +13,6 @@ class Task extends StatelessWidget {
     required this.priority,
     required this.date,
     required this.time,
-    required this.isCompleted,
     required this.description,
   });
 
@@ -115,7 +113,7 @@ class Task extends StatelessWidget {
               ),
             ],
           ),
-          Column(
+          /*Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -126,7 +124,7 @@ class Task extends StatelessWidget {
               ),
               const SizedBox(height: 50),
             ],
-          ),
+          ),*/
         ],
       ),
     );

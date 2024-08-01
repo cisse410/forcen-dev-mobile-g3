@@ -14,6 +14,27 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     on<DeleteTask>(_onDeleteTask);
   }
 
+  @override
+  Stream<TaskState> mapEventToState(TaskEvent event) async* {
+    if (event is UpdateTask) {
+      yield TaskLoading();
+      try {
+        // Appelez la méthode de mise à jour de votre repository
+        final updatedTask = await taskRepository.updateTask(event.task);
+        yield TaskUpdated(updatedTask);
+      } catch (e) {
+        yield TaskError(message: e.toString());
+      }
+    }
+  }
+
+  /*TaskBloc({required this.taskRepository}) : super(TaskInitial()) {
+    on<AddTask>(_onAddTask);
+    on<FetchTasks>(_onFetchTasks);
+    on<UpdateTask>(_onUpdateTask);
+    on<DeleteTask>(_onDeleteTask);
+  }*/
+
   void _onAddTask(AddTask event, Emitter<TaskState> emit) async {
     emit(TaskLoading());
     try {

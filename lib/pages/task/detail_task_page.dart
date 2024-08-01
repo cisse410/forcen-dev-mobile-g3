@@ -5,23 +5,25 @@ import 'package:tasks_manager_forcen/constants/app_colors.dart';
 import 'edit_task_page.dart';
 
 class TaskDetailPage extends StatelessWidget {
+  final int id;
   final String title;
   final String description;
   final DateTime date;
   final TimeOfDay time;
-  final bool isCompleted;
   final String priority;
+  final DateTime createdAt;
 
   const TaskDetailPage({
     super.key,
+    required this.id,
     required this.title,
     required this.description,
     required this.date,
     required this.time,
-    required this.isCompleted,
     required this.priority,
+    required this.createdAt,
   });
-  static const String routeName = '/detail-task';
+  static const String routeName = '/task-detail';
 
   @override
   Widget build(BuildContext context) {
@@ -38,11 +40,13 @@ class TaskDetailPage extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => EditTaskPage(
+                    id: id,
                     title: title,
                     description: description,
                     date: date,
                     time: time,
                     priority: priority,
+                    createdAt: '',
                   ),
                 ),
               );
@@ -63,6 +67,15 @@ class TaskDetailPage extends StatelessWidget {
           children: [
             Text(
               title,
+              style: const TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+                color: Color(0xff112255),
+              ),
+            ),
+            const SizedBox(width: 5),
+            Text(
+              id.toString(),
               style: const TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.bold,
@@ -111,7 +124,7 @@ class TaskDetailPage extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 16),
-            Row(
+            /*Row(
               children: [
                 Icon(
                   isCompleted ? Icons.check_circle : Icons.radio_button_unchecked,
@@ -126,7 +139,7 @@ class TaskDetailPage extends StatelessWidget {
                   ),
                 ),
               ],
-            ),
+            ),*/
           ],
         ),
       ),

@@ -7,7 +7,7 @@ import '../../api/blocs/task_bloc.dart';
 import '../../api/blocs/task_event.dart';
 
 class AddTaskPage extends StatefulWidget {
-  const AddTaskPage({Key? key}) : super(key: key);
+  const AddTaskPage({super.key});
   static const String routeName = '/add-task';
 
   @override
@@ -61,6 +61,35 @@ class _AddTaskPageState extends State<AddTaskPage> {
     }
   }
 
+  void _showTopSnackBar(BuildContext context, String message) {
+    final overlay = Overlay.of(context);
+    final overlayEntry = OverlayEntry(
+      builder: (context) => Positioned(
+        top: 70.0,
+        width: MediaQuery.of(context).size.width,
+        child: Material(
+          color: Colors.transparent,
+          child: Container(
+            padding: EdgeInsets.all(16.0),
+            decoration: BoxDecoration(
+              color: Colors.green,
+            ),
+            child: Text(
+              message,
+              style: TextStyle(color: Colors.white, fontSize: 16.0),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ),
+      ),
+    );
+
+    overlay.insert(overlayEntry);
+    Future.delayed(Duration(seconds: 4), () {
+      overlayEntry.remove();
+    });
+  }
+
   void _saveTask() {
     final title = _titleController.text;
     final content = _contentController.text;
@@ -79,11 +108,16 @@ class _AddTaskPageState extends State<AddTaskPage> {
       priority: _selectedPriority,
       color: color,
       dueDate: dueDate,
+      createdAt: DateTime.now()
     );
 
     context.read<TaskBloc>().add(AddTask(task));
 
-    Navigator.of(context).pop();
+    _showTopSnackBar(context, 'Task added successfully!');
+
+    Future.delayed(Duration(seconds: 2), () {
+      Navigator.of(context).pop();
+    });
   }
 
   @override
