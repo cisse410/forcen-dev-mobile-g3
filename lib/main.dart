@@ -6,7 +6,7 @@ import 'api/blocs/task_bloc.dart';
 import 'api/repository/task_repository.dart';
 
 void main() {
-  final TaskRepository taskRepository = TaskRepository(apiUrl: 'https://7e8f-41-82-27-233.ngrok-free.app');
+  final TaskRepository taskRepository = TaskRepository(apiUrl: 'https://785f-41-82-27-233.ngrok-free.app');
   runApp(MyApp(taskRepository: taskRepository));
 }
 

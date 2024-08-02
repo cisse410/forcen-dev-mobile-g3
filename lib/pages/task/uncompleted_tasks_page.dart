@@ -140,8 +140,7 @@ class _UncompletedTasksPageState extends State<UncompletedTasksPage> {
                   priority: task['priority'],
                   date: DateTime.parse(task['date']),
                   time: _parseTime(task['time']),
-                  isCompleted: task['isCompleted'],
-                  description: '',
+                  description: task['content'],
                 );
               },
             ),
